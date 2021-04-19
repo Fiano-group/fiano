@@ -5,75 +5,26 @@ import numpy as np
 import thinning
 import bcrypt
 from flask import Flask, request, render_template, Response, url_for, redirect
-from werkzeug.utils import secure_filename
 # from matplotlib import pyplot as plt
 from matplotlib.figure import Figure
 
 import sqlite3 as sql
 from flask import g
 
-app = Flask(__name__, template_folder=os.getcwd()+'/templates', static_folder=os.getcwd()+'/static')
-app.config['UPLOAD_FOLDER'] = './static'
-ALLOWED_EXTENSIONS = {'jpg','png'}
-filename = None
-path_histogram = None
+import sys
+sys.path.append('controller')
+sys.path.append('modules')
 
-DATABASE = './users.db'
 
 ########## Inicio login en la base de datos ##########
 
-def valid_login(username, password):
-    with sql.connect("users.db", check_same_thread=False) as con:
-        cur = con.cursor()
-        sql_sentence = 'select password from User where username = ?'
-        result = cur.execute(sql_sentence, (username,)).fetchall()
-        if len(result) == 0:
-            return False
-        db_password = result[0][0].encode('utf-8')
-        return bcrypt.checkpw(password.encode('utf-8'), db_password)
-    return False
 
 def log_the_user_in(username):
     return render_template('index.html', username=username)
 
-@app.route('/')
-@app.route('/login', methods=['POST', 'GET'])
-def login():
-    error = None
-    if request.method == 'POST':
-        if valid_login(request.form['username'], request.form['password']):
-            return log_the_user_in(request.form['username'])
-        else:
-            error = 'Invalid username/password'
-
-    return render_template('login.html', error=error)
 
 ########## Fin login en la base de datos ##########
 ########## Inicio carga de imágenes ##########
-
-def allowed_file(filename):
-    return '.' in filename and \
-        filename.rsplit('.', 1)[1].lower() in  ALLOWED_EXTENSIONS
-
-@app.route("/upload", methods=['POST'])
-def uploader():
-    global filename
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        f = request.files['file']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename
-        if f.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if f and allowed_file(f.filename):
-            filename = secure_filename(f.filename)
-            f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            local_filename = 'static/' + filename
-            return render_template('index.html', filename=local_filename)
 
 ########## Fin carga de imágenes ##########
 
