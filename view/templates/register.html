@@ -1,35 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" crossorigin="anonymous" />
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../static/css/main.css">
 
 
     <title>Control de Calidad de Fibras de Alpaca</title>
 </head>
-<body class="h-100">
 
+<body class="h-100">
     <div class="container h-100">
         <div class="row h-100 justify-content-center align-items-center">
             <div class="col-sm-12 col-md-5 col-lg-5 pt-2 pl-5 pr-5 pb-5" id="auth-container">
-                <img src="../static/img/logotipo-fiano.jpg" class="img-fluid rounded mx-auto d-block pb-2" style="max-width: 100%;">
+                <img src=" {{url_for('static', filename='img/logo.jpg')}}" class="img-fluid rounded mx-auto d-block pb-2"
+                    style="max-width: 100%;">
                 <!-- <img src="static/img/alpaca.jpg" class="img-fluid rounded mx-auto d-block" style="max-width: 100%;"> -->
-
-                
-            <form name="register-form"  action="/add_user" method = "POST">
-                <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Username" name="username" required="true" />
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="password" placeholder="Password" name="passwd" required="true" />
-                </div>
-                <!-- <div class="form-group">
+                <form name="register-form" action="/add_user" method="POST">
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="Username" name="username"
+                            required="true" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="password" placeholder="Password" name="passwd"
+                            required="true" />
+                    </div>
+                    <!-- <div class="form-group">
                     <input class="form-control" type="password" placeholder="Password confirmation" name="passwd_confirmation" required="true" />
                 </div> -->
-                <!-- <div class="form-group">
+                    <!-- <div class="form-group">
                     <input class="form-control" type="text" placeholder="First name" name="first_name" required="true" />
                 </div>
                 <div class="form-group">
@@ -38,13 +43,16 @@
                 <div class="form-group">
                     <input class="form-control" type="email" placeholder="Email address" name="email" required="true" />
                 </div> -->
-                <button class="btn btn-primary btn-block mt-5" type="submit">Register</button>
-            </form>
-        
-
+                    {%if error %}
+                    <div class="alert alert-danger" role="alert">
+                        {{error}}
+                      </div>
+                    {% endif%}
+                    <button class="btn btn-primary btn-block mt-5" type="submit">Register</button>
+                </form>
             </div>
         </div>
     </div>
-
 </body>
+
 </html>

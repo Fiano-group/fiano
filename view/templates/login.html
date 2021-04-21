@@ -28,7 +28,7 @@
         <div class="container h-100">
             <div class="row h-100 justify-content-center align-items-center">
                 <div class="col-sm-12 col-md-5 col-lg-4 pt-5 pl-5 pr-5 pb-5" id="auth-container">
-                    <img src="../static/img/logotipo-fiano.jpg" class="img-fluid rounded mx-auto d-block pb-2" style="max-width: 100%;">
+                    <img src="{{url_for('static', filename='img/logo.jpg')}}" class="img-fluid rounded mx-auto d-block pb-2" style="max-width: 100%;">
                     <br> 
                     <form name="login-form"  action="/login" onsubmit="return validateForm()" target="_self" method="POST">
                         {% if error %}
@@ -45,9 +45,9 @@
                     <form>
                         <button class="btn btn-link btn-block mt-2" type="submit">¿Olvidaste tu contraseña?</button> 
                     </form>
-                    <form name="login-register" action="/register">
-                        <button class="btn btn-link btn-block mt-1" type="submit">Registrarse</button>
-                    </form>
+                
+                    <a class="btn btn-link btn-block mt-1" href="{{url_for('register')}}">Registrarse</button>
+                    
                 </div>
             </div>
         </div>

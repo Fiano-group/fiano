@@ -14,3 +14,4 @@ def valid_login(username, password):
         db_password = result[0][0].encode('utf-8')
         return bcrypt.checkpw(password.encode('utf-8'), db_password)
     return False
+
