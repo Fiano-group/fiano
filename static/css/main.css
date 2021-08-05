@@ -1,48 +1,51 @@
-html, body {
+html, body{
     background: #fafafa;
+    background-image: url("../img/imagen.png");
+    background-size: 100%;
     height: 100%;
     width: 100%;
     font-family: 'Roboto', sans-serif;
 }
 
-#auth-container {
+#auth-container{
     background: #fff;
     border: 1px solid #e6e6e6;
-    border-radius: 1px;
+    border-radius: 2px;
+    box-shadow: 2px 2px 3px gray;
 }
 
-#main-navbar {
-    background: #fff;
-    border-bottom: 1px solid rgba(0,0,0,.0975);
+#coloregister{
+    background: #4F6AD7;
+    background-image: url("../img/image_register.png");
+    background-size: 100%;
 }
 
-.post-container {
-    background: #fff;
-    border: 1px solid #e6e6e6;
-    border-radius: 3px;
+.rectangle{
+    width: 270px; 
+    height: 70px; 
+    /* background: #428bca; */
+    background: linear-gradient(to right, #275379, #4FA8F5);
+    text-align: center;
+    color: white;
+    justify-content: center;
+    vertical-align: middle;
+    padding: 5% 0;
 }
 
-.nav-icon a {
-    color: #262626;
-    font-size: 1.3em;
-    display: block;
-    margin-top: .2em;
-    margin-left: 1.2em;
-    font-weight: 100;
-}
-.nav-icon a:hover {
-    color: #1d5e72;;
-}
-#profile-box {
-    background: #fff;
-    border: 1px solid rgba(0,0,0,.0975);
-    border-radius: 1px;
-    margin-top: 6em;
+.header{
+    background: linear-gradient(to right, #275379, #4FA8F5);
 }
 
-#user-posts #post-thumb {
-    background: #fff;
+.formatletter{
+    font-size: 12px;
 }
-#texto_contraseña{
-    font-size: 9px;
+
+.footer{
+    width: 100%;
+    position: absolute;
+    clear: both;
+    margin-top: 0px;
+    padding-top: 0px;
+    overflow: visible;
+    top: 93%;
 }

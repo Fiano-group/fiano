@@ -34,7 +34,7 @@ def valid_login(username, password):
     return False
 
 def log_the_user_in(username):
-    return render_template('index.html', username=username)
+    return redirect(url_for("listproject"))
 
 @app.route('/')
 @app.route('/login', methods=['POST', 'GET'])
@@ -49,7 +49,89 @@ def login():
     return render_template('login.html', error=error)
 
 ########## Fin login en la base de datos ##########
-########## Inicio carga de imágenes ##########
+
+######### Inicio obtener todos los proyectos #############
+
+@app.route("/home")
+def listproject():
+    with sql.connect("users.db") as con:
+        cur = con.cursor()
+        cur.execute("SELECT * FROM Project")
+        data = cur.fetchall()
+        return render_template("project.html", data = data)
+
+######## Fin obtener todos los proyectos ###########
+
+######## Crear un nuevo proyecto ##############
+
+@app.route("/add_project", methods=['POST'])
+def newproject():
+    if request.method == 'POST':
+        try:
+            nameproject = request.form['nameproject']
+            dateproject = request.form['dateproject']
+            with sql.connect("users.db") as con:
+                cur = con.cursor()
+                cur.execute("INSERT INTO Project VALUES (?,?,?,?)", (None, nameproject, dateproject, 5))
+                con.commit()
+        except sql.Error as e:
+            con.rollback()
+            print(e)
+        finally:
+            return redirect(url_for("listproject"))
+    return render_template("project.html")
+
+################## Fin crear un proyecto ###################
+################## Inicio Editar un proyecto ###############
+
+@app.route("/editproject/<int:id_project><string:name_project>")
+def editproject(id_project, name_project):
+    with sql.connect("users.db") as con:
+        cur = con.cursor()
+        cur.execute("SELECT * FROM Analysis")
+        data = cur.fetchall()
+        return render_template("analysis.html", id_project=id_project, name_project=name_project, data=data)
+
+################# Fin Editar un proyecto ###################
+################# Inicio obtener todos los analisis #################
+
+@app.route("/analysis")
+def listanalysis():
+    with sql.connect("users.db") as con:
+        cur = con.cursor()
+        cur.execute("SELECT * FROM Analysis")
+        data = cur.fetchall()
+        return render_template("analisis.html", data = data)
+
+################# Fin obtener todos los analisis ####################
+################# Inicio crear un nuevo analysis ####################
+
+@app.route("/add_analysis", methods=['POST'])
+def newanalysis():
+    if request.method == 'POST':
+        try:
+            nameanalysis = request.form['nameanalysis']
+            dateanalysis = request.form['dateanalysis']
+            with sql.connect("users.db") as con:
+                cur = con.cursor()
+                cur.execute("INSERT INTO Analysis VALUES (?,?,?,?)", (None, nameanalysis, dateanalysis, 9))
+                con.commit()
+        except sql.Error as e:
+            con.rollback()
+            print(e)
+        finally:
+            return redirect(url_for("listanalysis"))
+    return render_template("analysis.html")
+
+################# Fin crear un nuevo analysis #######################
+################# Inicio editar un analysis #########################
+
+@app.route("/editanalysis/<int:id_analysis><string:name_analysis>")
+def editanalysis(id_analysis, name_analysis):
+    return render_template("results.html", id_analysis=id_analysis, name_analysis=name_analysis)
+
+################# Fin editar un analysis ############################
+################ Inicio carga de imágenes ##################
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -73,7 +155,7 @@ def uploader():
             filename = secure_filename(f.filename)
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             local_filename = 'static/' + filename
-            return render_template('index.html', filename=local_filename)
+            return render_template('results.html', filename=local_filename)
 
 ########## Fin carga de imágenes ##########
 
@@ -89,20 +171,27 @@ def add_user():
         try:
             username = request.form['username']
             passwd = request.form['passwd']
-            hashed_password = bcrypt.hashpw(passwd.encode('utf-8'), bcrypt.gensalt())
-            password = hashed_password.decode('utf-8')
+            passwd_confirmation = request.form['passwd_confirmation']
+            first_name = request.form['first_name']
+            last_name = request.form['last_name']
+            email = request.form['email']
+            if passwd != passwd_confirmation:
+                msg = "La contraseña no coincide"
+                return render_template("register.html", msg = msg)
+            else:
+                hashed_password = bcrypt.hashpw(passwd.encode('utf-8'), bcrypt.gensalt())
+                password = hashed_password.decode('utf-8')
 
-            print(username, passwd)
+                print(username, passwd)
             with sql.connect("users.db") as con:
                 cur = con.cursor()
-                cur.execute("INSERT INTO User VALUES (?, ?)", (username, password))
+                cur.execute("INSERT INTO User VALUES (?, ?, ?, ?, ?, ?)", (None, username, password, first_name, last_name, email))
                 con.commit()
                 msg = "Record successfully added"
         except sql.Error as e:
             con.rollback()
             print(e)
             msg = "error in insert operation"
-
         finally:
             return render_template("login.html", msg = msg)
             con.close()
@@ -245,7 +334,7 @@ def processimage():
         context['path_skeleton'] = path_skeleton
         context['path_histogram'] = path_histogram
         
-        return render_template('index.html', **context)
+        return render_template('results.html', **context)
         
 
 ########## Fin de procesamiento de imágenes ##########
@@ -258,4 +347,4 @@ def processimage():
 ############ Fin de histograma ##############
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port='1234', debug=False)
+    app.run(host='0.0.0.0', port='1234', debug=True)

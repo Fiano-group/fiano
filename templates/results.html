@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>FIANO</title>
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+</head>
+<body id="page-top">
+    <div id="wrapper">
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow header">
+                    <h1 class="h3 mb-0 text-gray-400 justify-content-center">FIANO</h1>
+          
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+          
+                      <!-- Nav Item - User Information -->
+                      <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="mr-2 d-none d-lg-inline text-gray-900 small">Valerie Luna</span>
+                          <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                        </a>
+                        <!-- Dropdown - User Information -->
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                            <!-- <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> -->
+                            Salir
+                          </a>t
+                        </div>
+                      </li>
+                    </ul>
+                </nav>
+                <div class="container-fluid col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-5 pl-5 pr-5 pb-5 bodycontainer" >
+                    <div class="d-sm-flex align-items-center justify-content-center mb-4">
+                        <h2 class="h3 mb-0 text-gray-800">Fiber analysis online</h2>
+                    </div>
+                    <div class="d-sm-flex align-items-center justify-content-center mb-4">
+                        <h4 class="h3 mb-0 text-gray-800">Bienvenido {{ id_analysis }} {{ name_analysis }}</h4>
+                    </div>
+                    <div class="card shadow mb-4">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="d-sm-flex align-items-center justify-content-center" id="dataTable">
+                                    <tbody>
+                                        <tr>
+                                            <td>                
+                                                {% if filename %}
+                                                    <center><h5>Imagen original</h5></center>
+                                                    <img src= {{ filename }} height=250 width=280>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if path_thresholding %}
+                                                    <center><h5>Umbralización</h5></center> 
+                                                    <img src={{ path_thresholding }} height=250 width=280>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if path_erosion %}
+                                                    <center><h5>Erosión</h5></center>
+                                                    <img src={{ path_erosion }} height=250 width=280>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        <br>
+                                        <tr>
+                                            <td>
+                                                {% if path_dilatation %}
+                                                    <center><h5>Dilatación</h5></center>
+                                                    <img src={{ path_dilatation }} height=250 width=280>
+                                                {% endif %} 
+                                            </td>
+                                            <td>
+                                                {% if path_skeleton %}
+                                                    <center><h5>Esqueletización</h5></center>
+                                                    <img src={{ path_skeleton }} height=250 width=280>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if outfilename %}
+                                                    <center><h5>Imagen final</h5></center>
+                                                    <img src= {{ outfilename }} height=250 width=280>
+                                                    <!-- <p>{{ filename }}</p> -->
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        <br>
+                                        <tr>
+                                            <th colspan="3">
+                                                {% if path_histogram %}
+                                                    <center><h5>Histograma</h5></center>
+                                                    <img src={{ path_histogram }} height=563 width=702>
+                                                {% endif %}
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                
+                                <form action="/upload" method="POST" enctype="multipart/form-data">
+                                    <p>
+                                    <!-- <input type="file" name="file"> -->
+                                    <label for="image_uploads">Escoge una imagen (.png, .jpg)</label>
+                                    <input type="file" id="image_uploads" name="file" accept=".jpg, .jpeg, .png" multiple>
+                                    </p>
+                                    <p>
+                                    <input class="btn btn-primary" type="submit" >
+                                    </p>
+                                </form>
+                                <form action="/process" method="POST">
+                                    <button class="btn btn-primary" type="submit">Process</button>
+                                </form>
+                            
+                            </div>
+                        </div>
+                    </div>        
+                </div>
+            </div>  
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                  <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; FIANO 2021</span>
+                  </div>
+                </div>
+            </footer>
+        </div>
+    </div> 
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Crear proyecto</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form name="project-form" action="/add_project" method="POST">
+                <div class="form-group">
+                  <label for="name" class="col-form-label">Nombre:</label>
+                  <input class="form-control" type="text" name="nameproject"/>
+                </div>
+                <div class="form-group">
+                  <label for="date" class="col-form-label">Fecha:</label>
+                  <input class="form-control" type="date" name="dateproject" />
+                </div> 
+                <div class="modal-footer">
+                  <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                  <button class="btn btn-primary" type="submit">Crear</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/bootstrap.bundle.min.js') }}"></script>
+
+</body>
+</html>
