@@ -49,3 +49,40 @@ html, body{
     overflow: visible;
     top: 93%;
 }
+
+/* carousel */
+.container{
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+/* .carousel-inner img {
+    width: 280px;
+    height: 250px;
+} */
+
+#custCarousel .carousel-indicators {
+    position: static;
+    margin-top: 20px;
+}
+
+#custCarousel .carousel-indicators>li {
+    width: 100px;
+}
+
+#custCarousel .carousel-indicators li img {
+    display: block;
+    opacity: 0.5;
+}
+
+#custCarousel .carousel-indicators li.active img {
+    opacity: 1;
+}
+
+#custCarousel .carousel-indicators li:hover img {
+    opacity: 0.75;
+}
+
+/* .carousel-item img {
+    width: 80%;
+} */

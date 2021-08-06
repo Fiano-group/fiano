@@ -50,7 +50,7 @@
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="d-sm-flex align-items-center justify-content-center" id="dataTable">
+                                <!-- <table class="d-sm-flex align-items-center justify-content-center" id="dataTable">
                                     <tbody>
                                         <tr>
                                             <td>                
@@ -90,7 +90,6 @@
                                                 {% if outfilename %}
                                                     <center><h5>Imagen final</h5></center>
                                                     <img src= {{ outfilename }} height=250 width=280>
-                                                    <!-- <p>{{ filename }}</p> -->
                                                 {% endif %}
                                             </td>
                                         </tr>
@@ -104,11 +103,11 @@
                                             </th>
                                         </tr>
                                     </tbody>
-                                </table>
+                                </table> -->
+
                 
                                 <form action="/upload" method="POST" enctype="multipart/form-data">
                                     <p>
-                                    <!-- <input type="file" name="file"> -->
                                     <label for="image_uploads">Escoge una imagen (.png, .jpg)</label>
                                     <input type="file" id="image_uploads" name="file" accept=".jpg, .jpeg, .png" multiple>
                                     </p>
@@ -119,6 +118,99 @@
                                 <form action="/process" method="POST">
                                     <button class="btn btn-primary" type="submit">Process</button>
                                 </form>
+
+
+                                <div class="container">
+                                  <div class="row">
+                                      <div class="col-md-12">
+                                          <div id="custCarousel" class="carousel slide" data-ride="carousel" align="center">
+                                              <!-- slides -->
+                                              <div class="carousel-inner">
+                                                  <div class="carousel-item active">
+                                                    {% if filename %}
+                                                      <img src={{ filename }} height=500 width=700 alt="First slide">
+                                                    {% endif %}
+                                                    <div class="carousel-caption">
+                                                      <h4 class="h3-responsive">
+                                                        Imagen original
+                                                      </h4>
+                                                    </div>
+                                                  </div>
+                                                  <div class="carousel-item">
+                                                    {% if path_thresholding %}
+                                                      <img src={{ path_thresholding }} height=500 width=700 alt="Second slide">
+                                                    {% endif %}
+                                                    <div class="carousel-caption">
+                                                      <h4 class="h3-responsive">
+                                                        Umbralización
+                                                      </h4>
+                                                    </div>
+                                                  </div>
+                                                  <div class="carousel-item">
+                                                    {% if path_erosion %}
+                                                      <img src={{ path_erosion }} height=500 width=700 alt="Third slide">
+                                                    {% endif %}
+                                                    <div class="carousel-caption">
+                                                      <h4 class="h3-responsive">
+                                                        Erosión
+                                                      </h4>
+                                                    </div>
+                                                  </div>
+                                                  <div class="carousel-item">
+                                                    {% if path_dilatation %}
+                                                      <img src={{ path_dilatation }} height=500 width=700 alt="Fourth slide">
+                                                    {% endif %}
+                                                    <div class="carousel-caption">
+                                                      <h4 class="h3-responsive">
+                                                        Dilatación
+                                                      </h4>
+                                                    </div>
+                                                  </div>
+                                                  <div class="carousel-item">
+                                                    {% if path_skeleton %}
+                                                      <img src={{ path_skeleton }} height=500 width=700 alt="Fifth slide">
+                                                    {% endif %}
+                                                    <div class="carousel-caption">
+                                                      <h4 class="h3-responsive">
+                                                        Esqueletización
+                                                      </h4>
+                                                    </div>
+                                                  </div>
+                                                  <div class="carousel-item">
+                                                    {% if outfilename %}
+                                                      <img src={{ outfilename }} height=500 width=700 alt="Sixth slide">
+                                                    {% endif %}
+                                                    <div class="carousel-caption">
+                                                      <h4 class="h3-responsive">
+                                                        Imagen final
+                                                      </h4>
+                                                    </div>
+                                                  </div>
+                                                  <div class="carousel-item">
+                                                    {% if path_histogram %}
+                                                      <img src={{ path_histogram }} height=500 width=700 alt="Seventh slide">
+                                                    {% endif %}
+                                                    <div class="carousel-caption">
+                                                      <h4 class="h3-responsive">
+                                                        Histograma
+                                                      </h4>
+                                                    </div>
+                                                  </div>
+                                              </div> <!-- Left right --> <a class="carousel-control-prev" href="#custCarousel" data-slide="prev"> <span class="carousel-control-prev-icon"></span> </a> <a class="carousel-control-next" href="#custCarousel" data-slide="next"> <span class="carousel-control-next-icon"></span> </a> <!-- Thumbnails -->
+                                              <ol class="carousel-indicators list-inline">
+                                                  <li class="list-inline-item active"> <a id="carousel-selector-0" class="selected" data-slide-to="0" data-target="#custCarousel">{% if filename %}<img src={{ filename }} class="img-fluid">{% endif %} </a> </li>
+                                                  <li class="list-inline-item"> <a id="carousel-selector-1" data-slide-to="1" data-target="#custCarousel">{% if path_thresholding %}<img src={{ path_thresholding }} class="img-fluid">{% endif %}</a> </li>
+                                                  <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="2" data-target="#custCarousel">{% if path_erosion %}<img src={{ path_erosion }} class="img-fluid">{% endif %}</a> </li>
+                                                  <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="3" data-target="#custCarousel">{% if path_dilatation %}<img src={{ path_dilatation }} class="img-fluid">{% endif %}</a> </li>
+                                                  <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="4" data-target="#custCarousel">{% if path_skeleton %}<img src={{ path_skeleton }} class="img-fluid">{% endif %}</a> </li>
+                                                  <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="5" data-target="#custCarousel">{% if outfilename %}<img src={{ outfilename }} class="img-fluid">{% endif %}</a> </li>
+                                                  <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="6" data-target="#custCarousel">{% if path_histogram %}<img src={{ path_histogram  }} class="img-fluid">{% endif %}</a> </li>
+                                              </ol>
+                                          </div>
+                                      </div>
+                                  </div>
+                                </div>
+
                             
                             </div>
                         </div>
