@@ -48,7 +48,12 @@ def login():
 
     return render_template('login.html', error=error)
 
-########## Fin login en la base de datos ##########
+################ Fin login en la base de datos #################
+##################### begin logout users #######################
+@app.route('/logout')
+def logout():
+    return render_template('login.html')
+##################### end logout users #########################
 
 ######### Inicio obtener todos los proyectos #############
 
