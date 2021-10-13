@@ -106,7 +106,7 @@ def listanalysis():
         cur = con.cursor()
         cur.execute("SELECT * FROM Analysis")
         data = cur.fetchall()
-        return render_template("analisis.html", data = data)
+        return render_template("analysis.html", data = data)
 
 ################# Fin obtener todos los analisis ####################
 ################# Inicio crear un nuevo analysis ####################

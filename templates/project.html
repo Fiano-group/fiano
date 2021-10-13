@@ -1,128 +1,58 @@
 {% extends "base.html" %}
 {% block content %}
-  <!-- Page Wrapper -->
-  <div id="wrapper">
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
 
-      <!-- Main Content -->
-      <div id="content">
+<!-- Begin Page Content -->
+<div class="container-fluid">
 
-        <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow header">
-          <h1 class="h3 mb-0 text-gray-400 justify-content-center">FIANO</h1>
-
-          <!-- Topbar Navbar -->
-          <ul class="navbar-nav ml-auto">
-
-            <!-- Nav Item - User Information -->
-            <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-900 small">Valerie Luna</span>
-                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
-              </a>
-              <!-- Dropdown - User Information -->
-              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                  <!-- <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> -->
-                  Salir
-                </a>
-              </div>
-            </li>
-          </ul>
-
-        </nav>
-        <!-- End of Topbar -->
-
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
-
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-center mb-4">
-            <h2 class="h3 mb-0 text-gray-800">Fiber analysis online</h2>
-          </div>
-
-          <!-- DataTales Example -->
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Lista de proyectos</h6>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Proyecto</th>
-                      <th>Fecha</th>
-                      <th>Acción</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      {% for row in data %}
-                      <tr>
-                        <td>{{ row[0] }}</td>
-                        <td>{{ row[1] }}</td>
-                        <td>{{ row[2] }}</td>
-                        <td>
-                          <a class="btn btn-primary" href="{{ url_for('editproject', id_project=row[0], name_project=row[1]) }}">
-                            Editar
-                          </a>
-                          <button class="btn btn-danger">Eliminar</button>
-                        </td>
-                      </tr>
-                      {% endfor %}  
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <br><br>
-              <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Agregar proyecto</button> 
-            </div>
-          </div>
-
-        </div>
-        <!-- /.container-fluid -->
-
-      </div>
-      <!-- End of Main Content -->
-
-      <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; FIANO 2021</span>
-          </div>
-        </div>
-      </footer>
-      <!-- End of Footer -->
-
-    </div>
-    <!-- End of Content Wrapper -->
-
-  </div>
-  <!-- End of Page Wrapper -->
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">¿Listo para salir?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Seleccione "Cerrar sesión", si está listo para finalizar su sesión actual.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-          <a class="btn btn-primary" href="{{ url_for('logout')}}">Cerrar sesión</a>
-        </div>
-      </div>
-    </div>
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-center mb-4">
+    <h2 class="h3 mb-0 text-gray-800">Fiber analysis online</h2>
   </div>
 
+  <!-- DataTales Example -->
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Lista de proyectos</h6>
+    </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Proyecto</th>
+                <th>Fecha</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {% for row in data %}
+                  <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>
+                      <a class="btn btn-primary" href="{{ url_for('editproject', id_project=row[0], name_project=row[1]) }}">
+                        Editar
+                      </a>
+                      <button class="btn btn-danger">Eliminar</button>
+                    </td>
+                  </tr>
+                {% endfor %}  
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <br><br>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Agregar proyecto</button> 
+       </div>
+  </div>
+
+</div>
+<!-- /.container-fluid -->
+
+      
   <!-- New project Modal-->
   <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -152,9 +82,5 @@
       </div>
     </div>
   </div>
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='vendor/bootstrap/bootstrap.bundle.min.js') }}"></script>
-
+  
 {% endblock %}

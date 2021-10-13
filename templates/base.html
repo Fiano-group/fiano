@@ -13,9 +13,20 @@
     <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
 </head>
 <body id="page-top">
-   {% block title %}
-   {% endblock %}
-   {% block content %}
-   {% endblock %} 
+    <div id="wrapper">
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id ="content">
+                {% include 'head.html' %}
+            </div>
+            {% block content %}
+            {% endblock %} 
+            <div>
+                {% include 'footer.html' %}
+            </div>
+        </div>
+    </div>
+   <!-- Bootstrap core JavaScript-->
+   <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='vendor/bootstrap/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>
