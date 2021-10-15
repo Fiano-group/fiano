@@ -1,10 +1,12 @@
+from datetime import timedelta
 import os
 import cv2
 import shutil
 import numpy as np
 import thinning
 import bcrypt
-from flask import Flask, request, render_template, Response, url_for, redirect
+from flask import Flask, request, render_template, Response, url_for, redirect, session
+from flask_login import LoginManager
 from werkzeug.utils import secure_filename
 # from matplotlib import pyplot as plt
 from matplotlib.figure import Figure
@@ -14,6 +16,12 @@ from flask import g
 
 app = Flask(__name__, template_folder=os.getcwd()+'/templates', static_folder=os.getcwd()+'/static')
 app.config['UPLOAD_FOLDER'] = './static'
+
+app.permanent_session_lifetime = timedelta(minutes = 0.20)
+
+app.config['SECRET_KEY'] = 'palabrasecreta'
+app_login_manager = LoginManager()
+app_login_manager.session_protection = 'strong'
 ALLOWED_EXTENSIONS = {'jpg','png'}
 filename = None
 path_histogram = None
@@ -27,22 +35,21 @@ def valid_login(username, password):
         cur = con.cursor()
         sql_sentence = 'select password from User where username = ?'
         result = cur.execute(sql_sentence, (username,)).fetchall()
-        if len(result) == 0:
-            return False
-        db_password = result[0][0].encode('utf-8')
-        return bcrypt.checkpw(password.encode('utf-8'), db_password)
+        if len(result) != 0 and result is not None:
+            db_password = result[0][0].encode('utf-8')
+            return bcrypt.checkpw(password.encode('utf-8'), db_password)
     return False
-
-def log_the_user_in(username):
-    return redirect(url_for("listproject"))
+    
 
 @app.route('/')
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     error = None
     if request.method == 'POST':
-        if valid_login(request.form['username'], request.form['password']):
-            return log_the_user_in(request.form['username'])
+        username = request.form['username']
+        if valid_login(username, request.form['password']):
+            session['username'] = username
+            return redirect(url_for("list_projects"))
         else:
             error = 'Invalid username/password'
 
@@ -52,18 +59,30 @@ def login():
 ##################### begin logout users #######################
 @app.route('/logout')
 def logout():
+    import os
+    app.config['SECRET_KEY'] = os.urandom(32)
+    session.pop('username', None)
     return render_template('login.html')
 ##################### end logout users #########################
 
 ######### Inicio obtener todos los proyectos #############
 
-@app.route("/home")
-def listproject():
+@app.route("/list_projects")
+def list_projects():
     with sql.connect("users.db") as con:
-        cur = con.cursor()
-        cur.execute("SELECT * FROM Project")
+        context = dict()
+        cur = con.cursor()       
+        cur.execute(f"select * from User where username = '{session['username']}'")
+        user_data = cur.fetchall()
+        context['first_name'] = user_data[0][3]
+        context['last_name'] = user_data[0][4]
+        context['id_user'] = user_data[0][0]
+        session['IDUSER'] = user_data[0][0]
+        cur.execute(f"SELECT * FROM Project where idUser = {user_data[0][0]}")
         data = cur.fetchall()
-        return render_template("project.html", data = data)
+        context['data'] = data
+       
+        return render_template("project.html", **context)
 
 ######## Fin obtener todos los proyectos ###########
 
@@ -77,13 +96,12 @@ def newproject():
             dateproject = request.form['dateproject']
             with sql.connect("users.db") as con:
                 cur = con.cursor()
-                cur.execute("INSERT INTO Project VALUES (?,?,?,?)", (None, nameproject, dateproject, 5))
+                cur.execute("INSERT INTO Project VALUES (?,?,?,?)", (None, nameproject, dateproject, session['IDUSER']))
                 con.commit()
         except sql.Error as e:
-            con.rollback()
             print(e)
         finally:
-            return redirect(url_for("listproject"))
+            return redirect(url_for("list_projects"))
     return render_template("project.html")
 
 ################## Fin crear un proyecto ###################
