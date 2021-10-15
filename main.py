@@ -1,4 +1,3 @@
-from datetime import timedelta
 import os
 import cv2
 import shutil
@@ -6,6 +5,7 @@ import numpy as np
 import thinning
 import bcrypt
 from flask import Flask, request, render_template, Response, url_for, redirect, session
+from datetime import timedelta
 from flask_login import LoginManager
 from werkzeug.utils import secure_filename
 # from matplotlib import pyplot as plt
@@ -17,9 +17,9 @@ from flask import g
 app = Flask(__name__, template_folder=os.getcwd()+'/templates', static_folder=os.getcwd()+'/static')
 app.config['UPLOAD_FOLDER'] = './static'
 
-app.permanent_session_lifetime = timedelta(minutes = 0.20)
+app.permanent_session_lifetime = timedelta(minutes=5)
 
-app.config['SECRET_KEY'] = 'palabrasecreta'
+app.config['SECRET_KEY'] = 'erAvJS2cEpOPZsm-9UTEI7bfA'
 app_login_manager = LoginManager()
 app_login_manager.session_protection = 'strong'
 ALLOWED_EXTENSIONS = {'jpg','png'}
@@ -42,47 +42,59 @@ def valid_login(username, password):
     
 
 @app.route('/')
+def home():
+    return render_template('login.html')
+
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     error = None
     if request.method == 'POST':
+        session.permanent = True
         username = request.form['username']
         if valid_login(username, request.form['password']):
             session['username'] = username
-            return redirect(url_for("list_projects"))
+            if 'username' in session:
+                return redirect(url_for("list_projects"))
+            else:
+                return redirect(url_for('login'))
         else:
             error = 'Invalid username/password'
-
     return render_template('login.html', error=error)
 
 ################ Fin login en la base de datos #################
 ##################### begin logout users #######################
 @app.route('/logout')
 def logout():
-    import os
-    app.config['SECRET_KEY'] = os.urandom(32)
+    # import os
+    # app.config['SECRET_KEY'] = os.urandom(32)
+    # session.pop('username', None)
+    # return render_template('login.html')
     session.pop('username', None)
-    return render_template('login.html')
+    return redirect(url_for('home'))
 ##################### end logout users #########################
 
 ######### Inicio obtener todos los proyectos #############
 
 @app.route("/list_projects")
 def list_projects():
-    with sql.connect("users.db") as con:
-        context = dict()
-        cur = con.cursor()       
-        cur.execute(f"select * from User where username = '{session['username']}'")
-        user_data = cur.fetchall()
-        context['first_name'] = user_data[0][3]
-        context['last_name'] = user_data[0][4]
-        context['id_user'] = user_data[0][0]
-        session['IDUSER'] = user_data[0][0]
-        cur.execute(f"SELECT * FROM Project where idUser = {user_data[0][0]}")
-        data = cur.fetchall()
-        context['data'] = data
-       
-        return render_template("project.html", **context)
+    if 'username' in session:
+        username = session['username']
+        with sql.connect("users.db") as con:
+            context = dict()
+            cur = con.cursor()       
+            cur.execute(f"select * from User where username = '{session['username']}'")
+            user_data = cur.fetchall()
+            context['first_name'] = user_data[0][3]
+            context['last_name'] = user_data[0][4]
+            context['id_user'] = user_data[0][0]
+            session['IDUSER'] = user_data[0][0]
+            cur.execute(f"SELECT * FROM Project where idUser = {user_data[0][0]}")
+            data = cur.fetchall()
+            context['data'] = data
+        
+            return render_template("project.html", **context)
+    else:
+        return redirect(url_for('login'))
 
 ######## Fin obtener todos los proyectos ###########
 
@@ -90,68 +102,83 @@ def list_projects():
 
 @app.route("/add_project", methods=['POST'])
 def newproject():
-    if request.method == 'POST':
-        try:
-            nameproject = request.form['nameproject']
-            dateproject = request.form['dateproject']
-            with sql.connect("users.db") as con:
-                cur = con.cursor()
-                cur.execute("INSERT INTO Project VALUES (?,?,?,?)", (None, nameproject, dateproject, session['IDUSER']))
-                con.commit()
-        except sql.Error as e:
-            print(e)
-        finally:
-            return redirect(url_for("list_projects"))
-    return render_template("project.html")
+    if 'username' in session:
+        if request.method == 'POST':
+            try:
+                nameproject = request.form['nameproject']
+                dateproject = request.form['dateproject']
+                with sql.connect("users.db") as con:
+                    cur = con.cursor()
+                    cur.execute("INSERT INTO Project VALUES (?,?,?,?)", (None, nameproject, dateproject, session['IDUSER']))
+                    con.commit()
+            except sql.Error as e:
+                print(e)
+            finally:
+                return redirect(url_for("list_projects"))
+        return render_template("project.html")
+    else:
+        return redirect(url_for('login'))
 
 ################## Fin crear un proyecto ###################
 ################## Inicio Editar un proyecto ###############
 
 @app.route("/editproject/<int:id_project><string:name_project>")
 def editproject(id_project, name_project):
-    with sql.connect("users.db") as con:
-        cur = con.cursor()
-        cur.execute("SELECT * FROM Analysis")
-        data = cur.fetchall()
-        return render_template("analysis.html", id_project=id_project, name_project=name_project, data=data)
+    if 'username' in session:
+         with sql.connect("users.db") as con:
+            cur = con.cursor()
+            cur.execute("SELECT * FROM Analysis")
+            data = cur.fetchall()
+            return render_template("analysis.html", id_project=id_project, name_project=name_project, data=data)
+    else:
+        return redirect(url_for('login'))
 
 ################# Fin Editar un proyecto ###################
 ################# Inicio obtener todos los analisis #################
 
 @app.route("/analysis")
 def listanalysis():
-    with sql.connect("users.db") as con:
-        cur = con.cursor()
-        cur.execute("SELECT * FROM Analysis")
-        data = cur.fetchall()
-        return render_template("analysis.html", data = data)
-
+    if 'username' in session:
+        with sql.connect("users.db") as con:
+            cur = con.cursor()
+            cur.execute("SELECT * FROM Analysis")
+            data = cur.fetchall()
+            return render_template("analysis.html", data = data)
+    else:
+        return redirect(url_for('login'))
 ################# Fin obtener todos los analisis ####################
 ################# Inicio crear un nuevo analysis ####################
 
 @app.route("/add_analysis", methods=['POST'])
 def newanalysis():
-    if request.method == 'POST':
-        try:
-            nameanalysis = request.form['nameanalysis']
-            dateanalysis = request.form['dateanalysis']
-            with sql.connect("users.db") as con:
-                cur = con.cursor()
-                cur.execute("INSERT INTO Analysis VALUES (?,?,?,?)", (None, nameanalysis, dateanalysis, 9))
-                con.commit()
-        except sql.Error as e:
-            con.rollback()
-            print(e)
-        finally:
-            return redirect(url_for("listanalysis"))
-    return render_template("analysis.html")
+    if 'username' in session:
+        if request.method == 'POST':
+            try:
+                nameanalysis = request.form['nameanalysis']
+                dateanalysis = request.form['dateanalysis']
+                with sql.connect("users.db") as con:
+                    cur = con.cursor()
+                    cur.execute("INSERT INTO Analysis VALUES (?,?,?,?)", (None, nameanalysis, dateanalysis, 9))
+                    con.commit()
+            except sql.Error as e:
+                con.rollback()
+                print(e)
+            finally:
+                    return redirect(url_for("listanalysis"))
+        return render_template("analysis.html")
+    else:
+        return redirect(url_for('login'))
+   
 
 ################# Fin crear un nuevo analysis #######################
 ################# Inicio editar un analysis #########################
 
 @app.route("/editanalysis/<int:id_analysis><string:name_analysis>")
 def editanalysis(id_analysis, name_analysis):
-    return render_template("results.html", id_analysis=id_analysis, name_analysis=name_analysis)
+    if 'username' in session:
+        return render_template("results.html", id_analysis=id_analysis, name_analysis=name_analysis)
+    else:
+        return redirect(url_for('login'))
 
 ################# Fin editar un analysis ############################
 ################ Inicio carga de imágenes ##################
@@ -162,24 +189,26 @@ def allowed_file(filename):
 
 @app.route("/upload", methods=['POST'])
 def uploader():
-    global filename
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        f = request.files['file']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename
-        if f.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if f and allowed_file(f.filename):
-            filename = secure_filename(f.filename)
-            f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            local_filename = 'static/' + filename
-            return render_template('results.html', filename=local_filename)
-
+    if 'username' in session:
+        global filename
+        if request.method == 'POST':
+            # check if the post request has the file part
+            if 'file' not in request.files:
+                flash('No file part')
+                return redirect(request.url)
+            f = request.files['file']
+            # If the user does not select a file, the browser submits an
+            # empty file without a filename
+            if f.filename == '':
+                flash('No selected file')
+                return redirect(request.url)
+            if f and allowed_file(f.filename):
+                filename = secure_filename(f.filename)
+                f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                local_filename = 'static/' + filename
+                return render_template('results.html', filename=local_filename)
+    else:
+        return redirect(url_for('login'))
 ########## Fin carga de imágenes ##########
 
 ########## Inicio registro de usuarios ##########
