@@ -1,26 +1,48 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container-fluid col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-5 pl-5 pr-5 pb-5 bodycontainer">
-  <div class="d-sm-flex align-items-center justify-content-center mb-4">
+<div class="container-fluid col-sm-12 col-md-12 col-lg-12 col-xl-12 pl-5 pr-5 pb-5 bodycontainer">
+
+  <!-- <div class="d-sm-flex align-items-center justify-content-center mb-4">
     <h4 class="h3 mb-0 text-gray-800">Bienvenido {{ id_analysis }} {{ name_analysis }}</h4>
+  </div> -->
+  <nav aria-label="Page navigation">
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="btn btn-link btn-block" href="{{ url_for('returnproject')}}">Regresar a proyectos</a>
+      </li>
+      <li class="page-item">
+        <a class="btn btn-link btn-block" href="{{ url_for('returnanalysis')}}">Regresar a análisis</a>
+      </li>
+    </ul>
+  </nav>
+  <div class="d-sm-flex align-items-center justify-content-center mb-4">
+    <h2 class="h3 mb-0 text-gray-800">Fiber analysis online</h2>
   </div>
   <div class="card shadow mb-4">
     <div class="card-body">
-      <div class="table-responsive">
-
+      <div class="table-responsive"> 
+        <table class="table"id="tableresults">
         <form action="/upload" method="POST" enctype="multipart/form-data">
-          <p>
-            <label for="image_uploads">Escoge una imagen (.png, .jpg)</label>
-            <input type="file" id="image_uploads" name="file" accept=".jpg, .jpeg, .png" multiple>
-          </p>
-          <p>
-            <input class="btn btn-primary" type="submit">
-          </p>
+          <tr><td><p>
+            <label for="image_uploads">Elegir imagen (.png, .jpg)</label></td><td>
+              <div class="containerfile">
+                <input type="file" id="file" class="upload-box" name="file" accept=".jpg, .jpeg, .png" multiple>  
+              </div>
+          </p></td></tr>
+          <tr><td>
+            <label for="image_send">Enviar imagen</label></td><td>
+            <button class="btn btn-primary" type="submit">Subir</button>
+          </p></td></tr>
         </form>
         <form action="/process" method="POST">
-          <button class="btn btn-primary" type="submit">Process</button>
+          <tr><td><label for="image_process">Procesamiento imagen</label></td><td>
+          <button class="btn btn-primary" type="submit">Procesar</button>
+          </td></tr>
         </form>
+      </table>
+      </div>
+        <div class="table-responsive">
         <div class="container">
           <div class="row">
             <div class="col-md-12">

@@ -1,12 +1,17 @@
 html, body{
     background: #fafafa;
-    background-image: url("../img/imagen.png");
-    background-size: 100%;
     height: 100%;
     width: 100%;
     font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
-
+#fondologin{
+    margin-top: 0px;
+    background-image: url("../img/imagen.png");
+    background-size: 100%;
+}
 #auth-container{
     background: #fff;
     border: 1px solid #e6e6e6;
@@ -19,7 +24,19 @@ html, body{
     background-image: url("../img/image_register.png");
     background-size: 100%;
 }
-
+#tableresults{
+    border: white 2px solid;
+}
+td,th{
+    border: white 1px solid;
+}
+.containermain {
+    width: 80%;
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+    margin-right: auto;
+    margin-left: auto;
+  }
 .rectangle{
     width: 270px; 
     height: 70px; 
@@ -36,11 +53,11 @@ html, body{
     background: linear-gradient(to right, #275379, #4FA8F5);
 }
 
-.formatletter{
+/* .formatletter{
     font-size: 12px;
-}
+} */
 
-.footer{
+/* .footer{
     width: 100%;
     position: absolute;
     clear: both;
@@ -48,7 +65,7 @@ html, body{
     padding-top: 0px;
     overflow: visible;
     top: 93%;
-}
+} */
 
 /* carousel */
 .container{
@@ -86,3 +103,26 @@ html, body{
 /* .carousel-item img {
     width: 80%;
 } */
+
+.containerfile{
+    /* top:50%;
+    left:50%;
+    transform: translate(-50%,-50%); */
+    position:relative;
+}
+.upload-box{
+    font-size: 16px;
+    background: white;
+    border-radius: 8px;
+    width:350px;
+    outline:none;
+}
+::-webkit-file-upload-button{
+    color:white;
+    background: #4F6AD8;
+    padding:9px;
+    border:none;
+    border-radius: 8px;
+    outline:none;
+    margin-right: 10px;
+}

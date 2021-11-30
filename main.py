@@ -122,16 +122,44 @@ def newproject():
 ################## Fin crear un proyecto ###################
 ################## Inicio Editar un proyecto ###############
 
-@app.route("/editproject/<int:id_project><string:name_project>")
-def editproject(id_project, name_project):
+@app.route("/editproject")
+def editproject():
     if 'username' in session:
-         with sql.connect("users.db") as con:
+        username = session['username']
+        with sql.connect("users.db") as con:
+            context = dict()
             cur = con.cursor()
-            cur.execute("SELECT * FROM Analysis")
+            cur.execute(f"select * from User where username = '{session['username']}'")
+            user_data = cur.fetchall()
+            context['first_name'] = user_data[0][3]
+            context['last_name'] = user_data[0][4]
+            context['id_user'] = user_data[0][0]
+            session['IDUSER'] = user_data[0][0]
+            cur.execute(f"SELECT * FROM Analysis where idUser = {user_data[0][0]}")
             data = cur.fetchall()
-            return render_template("analysis.html", id_project=id_project, name_project=name_project, data=data)
+            context['data'] = data
+            return render_template("analysis.html", **context)
     else:
         return redirect(url_for('login'))
+
+@app.route("/returnproject")
+def returnproject():
+     if 'username' in session:
+        username = session['username']
+        with sql.connect("users.db") as con:
+            context = dict()
+            cur = con.cursor()       
+            cur.execute(f"select * from User where username = '{session['username']}'")
+            user_data = cur.fetchall()
+            context['first_name'] = user_data[0][3]
+            context['last_name'] = user_data[0][4]
+            context['id_user'] = user_data[0][0]
+            session['IDUSER'] = user_data[0][0]
+            cur.execute(f"SELECT * FROM Project where idUser = {user_data[0][0]}")
+            data = cur.fetchall()
+            context['data'] = data
+        
+            return render_template("project.html", **context)
 
 ################# Fin Editar un proyecto ###################
 ################# Inicio obtener todos los analisis #################
@@ -146,6 +174,26 @@ def listanalysis():
             return render_template("analysis.html", data = data)
     else:
         return redirect(url_for('login'))
+
+@app.route("/returnanalysis")
+def returnanalysis():
+     if 'username' in session:
+        username = session['username']
+        with sql.connect("users.db") as con:
+            context = dict()
+            cur = con.cursor()
+            cur.execute(f"select * from User where username = '{session['username']}'")
+            user_data = cur.fetchall()
+            context['first_name'] = user_data[0][3]
+            context['last_name'] = user_data[0][4]
+            context['id_user'] = user_data[0][0]
+            session['IDUSER'] = user_data[0][0] 
+            cur.execute(f"SELECT * FROM Project where idUser = {user_data[0][0]}")
+            data = cur.fetchall()
+            context['data'] = data
+
+            return render_template("analysis.html", **context)
+
 ################# Fin obtener todos los analisis ####################
 ################# Inicio crear un nuevo analysis ####################
 
@@ -164,19 +212,33 @@ def newanalysis():
                 con.rollback()
                 print(e)
             finally:
-                    return redirect(url_for("listanalysis"))
+                    # return redirect(url_for("listanalysis"))
+                    return render_template("results.html")
         return render_template("analysis.html")
     else:
         return redirect(url_for('login'))
-   
 
 ################# Fin crear un nuevo analysis #######################
 ################# Inicio editar un analysis #########################
 
-@app.route("/editanalysis/<int:id_analysis><string:name_analysis>")
-def editanalysis(id_analysis, name_analysis):
+@app.route("/editanalysis")
+def editanalysis():
     if 'username' in session:
-        return render_template("results.html", id_analysis=id_analysis, name_analysis=name_analysis)
+        username = session['username']
+        with sql.connect("users.db") as con:
+            context = dict()
+            cur = con.cursor()
+            cur.execute(f"select * from User where username = '{session['username']}'")
+            user_data = cur.fetchall()
+            context['first_name'] = user_data[0][3]
+            context['last_name'] = user_data[0][4]
+            context['id_user'] = user_data[0][0]
+            session['IDUSER'] = user_data[0][0] 
+            cur.execute(f"SELECT * FROM Project where idUser = {user_data[0][0]}")
+            data = cur.fetchall()
+            context['data'] = data
+
+            return render_template("results.html", **context)
     else:
         return redirect(url_for('login'))
 
@@ -190,6 +252,19 @@ def allowed_file(filename):
 @app.route("/upload", methods=['POST'])
 def uploader():
     if 'username' in session:
+        username = session['username']
+        with sql.connect("users.db") as con:
+            context = dict()
+            cur = con.cursor()
+            cur.execute(f"select * from User where username = '{session['username']}'")
+            user_data = cur.fetchall()
+            context['first_name'] = user_data[0][3]
+            context['last_name'] = user_data[0][4]
+            context['id_user'] = user_data[0][0]
+            session['IDUSER'] = user_data[0][0]
+            cur.execute(f"SELECT * FROM Project where idUser = {user_data[0][0]}")
+            data = cur.fetchall()
+            context['data'] = data
         global filename
         if request.method == 'POST':
             # check if the post request has the file part
@@ -206,7 +281,7 @@ def uploader():
                 filename = secure_filename(f.filename)
                 f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 local_filename = 'static/' + filename
-                return render_template('results.html', filename=local_filename)
+                return render_template('results.html', filename=local_filename, **context)
     else:
         return redirect(url_for('login'))
 ########## Fin carga de imágenes ##########
@@ -271,10 +346,22 @@ def removeIntersection(skeleton, image, region):
                     output[i-region:i+region, j-region:j+region] = 0
     return output
 
-
 @app.route("/process", methods=['POST'])
 def processimage():
     global path_histogram
+    username = session['username']
+    with sql.connect("users.db") as con:
+        context_user = dict()
+        cur = con.cursor()
+        cur.execute(f"select * from User where username = '{session['username']}'")
+        user_data = cur.fetchall()
+        context_user['first_name'] = user_data[0][3]
+        context_user['last_name'] = user_data[0][4]
+        context_user['id_user'] = user_data[0][0]
+        session['IDUSER'] = user_data[0][0]
+        cur.execute(f"SELECT * FROM Project where idUser = {user_data[0][0]}")
+        data = cur.fetchall()
+        context_user['data'] = data
     if request.method == 'POST':
         path_erosion = f'static/process/erosion_{filename}'
         path_dilatation = f'static/process/dilatation_{filename}'
@@ -386,7 +473,7 @@ def processimage():
         context['path_skeleton'] = path_skeleton
         context['path_histogram'] = path_histogram
         
-        return render_template('results.html', **context)
+        return render_template('results.html', **context, **context_user)
         
 
 ########## Fin de procesamiento de imágenes ##########
