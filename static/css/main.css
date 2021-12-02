@@ -25,10 +25,11 @@ html, body{
     background-size: 100%;
 }
 #tableresults{
-    border: white 2px solid;
+    border:white 2px solid;
+    text-align: center;
 }
 td,th{
-    border: white 1px solid;
+    border:white 1px solid;
 }
 .containermain {
     width: 80%;
@@ -53,19 +54,6 @@ td,th{
     background: linear-gradient(to right, #275379, #4FA8F5);
 }
 
-/* .formatletter{
-    font-size: 12px;
-} */
-
-/* .footer{
-    width: 100%;
-    position: absolute;
-    clear: both;
-    margin-top: 0px;
-    padding-top: 0px;
-    overflow: visible;
-    top: 93%;
-} */
 
 /* carousel */
 .container{
@@ -104,25 +92,27 @@ td,th{
     width: 80%;
 } */
 
-.containerfile{
-    /* top:50%;
-    left:50%;
-    transform: translate(-50%,-50%); */
-    position:relative;
+input[type="file"]{
+    display:none;
 }
-.upload-box{
-    font-size: 16px;
-    background: white;
-    border-radius: 8px;
-    width:350px;
-    outline:none;
-}
-::-webkit-file-upload-button{
+.labelfile{
     color:white;
-    background: #4F6AD8;
-    padding:9px;
-    border:none;
+    background-color: #4F6AD8;
+    font-size: 16px;
+    justify-content: center;
+    align-items: center;
+    padding: 7px;
     border-radius: 8px;
-    outline:none;
-    margin-right: 10px;
+}
+.labelfile:hover{
+    background: #325ed6;
+}
+.processimage{
+    padding-top: 0px;
+    padding: 0px;
+    margin:0px
+}
+.containerprocess{
+    margin-top: 20px;
+    margin-bottom: 100px;
 }

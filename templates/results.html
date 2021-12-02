@@ -21,140 +21,142 @@
   </div>
   <div class="card shadow mb-4">
     <div class="card-body">
-      <div class="table-responsive"> 
-        <table class="table"id="tableresults">
-        <form action="/upload" method="POST" enctype="multipart/form-data">
-          <tr><td><p>
-            <label for="image_uploads">Elegir imagen (.png, .jpg)</label></td><td>
-              <div class="containerfile">
-                <input type="file" id="file" class="upload-box" name="file" accept=".jpg, .jpeg, .png" multiple>  
-              </div>
-          </p></td></tr>
-          <tr><td>
-            <label for="image_send">Enviar imagen</label></td><td>
-            <button class="btn btn-primary" type="submit">Subir</button>
-          </p></td></tr>
-        </form>
-        <form action="/process" method="POST">
-          <tr><td><label for="image_process">Procesamiento imagen</label></td><td>
-          <button class="btn btn-primary" type="submit">Procesar</button>
-          </td></tr>
-        </form>
-      </table>
+      <div class="row">
+        <div class="col-md-2">
+          <form action="/upload" method="POST" enctype="multipart/form-data">
+            <p>
+              <input type="file" id="file" class="upload-box" name="file" accept=".jpg, .jpeg, .png" multiple> 
+              <label class="labelfile"for="file">Elegir imagen</label> 
+            </p>
+        </div>
+        <div class="col-md-8">
+            <button class="btn btn-primary buttonsubir" type="submit">Subir</button>
+          </form>
+        </div>
+        <div class="col-md-2">
+          <form action="/process" method="POST">
+            <button class="btn btn-primary buttonprocesar" type="submit" {% if not filename %} disabled {% endif %}>Procesar</button>
+          </form>
+        </div>
       </div>
+      {% if filename and not path_thresholding %}
+        <center>
+          <img src={{ filename }} width=80%>
+        </center>
+      {% else %}
         <div class="table-responsive">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <div id="custCarousel" class="carousel slide" data-ride="carousel" align="center">
-                <!-- slides -->
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    {% if filename %}
-                    <img src={{ filename }} height=500 width=700 alt="First slide">
-                    {% endif %}
-                    <div class="carousel-caption">
-                      <h4 class="h3-responsive">
-                        Imagen original
-                      </h4>
+          <div class="containerprocess">
+            <div class="row">
+              <div class="col-md-12">
+                <div id="custCarousel" class="carousel slide" data-ride="carousel" align="center">
+                  <!-- slides -->
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      {% if filename %}
+                      <img src={{ filename }} height=500 width=700 alt="First slide">
+                      {% endif %}
+                      <div class="carousel-caption">
+                        <h4 class="h3-responsive">
+                          Imagen original
+                        </h4>
+                      </div>
                     </div>
-                  </div>
-                  <div class="carousel-item">
-                    {% if path_thresholding %}
-                    <img src={{ path_thresholding }} height=500 width=700 alt="Second slide">
-                    {% endif %}
-                    <div class="carousel-caption">
-                      <h4 class="h3-responsive">
-                        Umbralización
-                      </h4>
+                    <div class="carousel-item">
+                      {% if path_thresholding %}
+                      <img src={{ path_thresholding }} height=500 width=700 alt="Second slide">
+                      {% endif %}
+                      <div class="carousel-caption">
+                        <h4 class="h3-responsive">
+                          Umbralización
+                        </h4>
+                      </div>
                     </div>
-                  </div>
-                  <div class="carousel-item">
-                    {% if path_erosion %}
-                    <img src={{ path_erosion }} height=500 width=700 alt="Third slide">
-                    {% endif %}
-                    <div class="carousel-caption">
-                      <h4 class="h3-responsive">
-                        Erosión
-                      </h4>
+                    <div class="carousel-item">
+                      {% if path_erosion %}
+                      <img src={{ path_erosion }} height=500 width=700 alt="Third slide">
+                      {% endif %}
+                      <div class="carousel-caption">
+                        <h4 class="h3-responsive">
+                          Erosión
+                        </h4>
+                      </div>
                     </div>
-                  </div>
-                  <div class="carousel-item">
-                    {% if path_dilatation %}
-                    <img src={{ path_dilatation }} height=500 width=700 alt="Fourth slide">
-                    {% endif %}
-                    <div class="carousel-caption">
-                      <h4 class="h3-responsive">
-                        Dilatación
-                      </h4>
+                    <div class="carousel-item">
+                      {% if path_dilatation %}
+                      <img src={{ path_dilatation }} height=500 width=700 alt="Fourth slide">
+                      {% endif %}
+                      <div class="carousel-caption">
+                        <h4 class="h3-responsive">
+                          Dilatación
+                        </h4>
+                      </div>
                     </div>
-                  </div>
-                  <div class="carousel-item">
-                    {% if path_skeleton %}
-                    <img src={{ path_skeleton }} height=500 width=700 alt="Fifth slide">
-                    {% endif %}
-                    <div class="carousel-caption">
-                      <h4 class="h3-responsive">
-                        Esqueletización
-                      </h4>
+                    <div class="carousel-item">
+                      {% if path_skeleton %}
+                      <img src={{ path_skeleton }} height=500 width=700 alt="Fifth slide">
+                      {% endif %}
+                      <div class="carousel-caption">
+                        <h4 class="h3-responsive">
+                          Esqueletización
+                        </h4>
+                      </div>
                     </div>
-                  </div>
-                  <div class="carousel-item">
-                    {% if outfilename %}
-                    <img src={{ outfilename }} height=500 width=700 alt="Sixth slide">
-                    {% endif %}
-                    <div class="carousel-caption">
-                      <h4 class="h3-responsive">
-                        Imagen final
-                      </h4>
+                    <div class="carousel-item">
+                      {% if outfilename %}
+                      <img src={{ outfilename }} height=500 width=700 alt="Sixth slide">
+                      {% endif %}
+                      <div class="carousel-caption">
+                        <h4 class="h3-responsive">
+                          Imagen final
+                        </h4>
+                      </div>
                     </div>
-                  </div>
-                  <div class="carousel-item">
-                    {% if path_histogram %}
-                    <img src={{ path_histogram }} height=500 width=700 alt="Seventh slide">
-                    {% endif %}
-                    <div class="carousel-caption">
-                      <h4 class="h3-responsive">
-                        Histograma
-                      </h4>
+                    <div class="carousel-item">
+                      {% if path_histogram %}
+                      <img src={{ path_histogram }} height=500 width=700 alt="Seventh slide">
+                      {% endif %}
+                      <!-- <div class="carousel-caption">
+                        <h4 class="h3-responsive">
+                          Histograma
+                        </h4>
+                      </div> -->
                     </div>
-                  </div>
-                </div> 
-                <!-- Left right --> 
-                <a class="carousel-control-prev" href="#custCarousel" data-slide="prev">
-                  <span class="carousel-control-prev-icon"></span> </a> <a class="carousel-control-next"
-                  href="#custCarousel" data-slide="next"> <span class="carousel-control-next-icon"></span> </a>
-                <!-- Thumbnails -->
-                <ol class="carousel-indicators list-inline">
-                  <li class="list-inline-item active"> <a id="carousel-selector-0" class="selected" data-slide-to="0"
-                      data-target="#custCarousel">{% if filename %}<img src={{ filename }} class="img-fluid">{% endif %}
-                    </a> </li>
-                  <li class="list-inline-item"> <a id="carousel-selector-1" data-slide-to="1"
-                      data-target="#custCarousel">{% if path_thresholding %}<img src={{ path_thresholding }}
-                        class="img-fluid">{% endif %}</a> </li>
-                  <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="2"
-                      data-target="#custCarousel">{% if path_erosion %}<img src={{ path_erosion }} class="img-fluid">{%
-                      endif %}</a> </li>
-                  <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="3"
-                      data-target="#custCarousel">{% if path_dilatation %}<img src={{ path_dilatation }}
-                        class="img-fluid">{% endif %}</a> </li>
-                  <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="4"
-                      data-target="#custCarousel">{% if path_skeleton %}<img src={{ path_skeleton }}
-                        class="img-fluid">{% endif %}</a> </li>
-                  <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="5"
-                      data-target="#custCarousel">{% if outfilename %}<img src={{ outfilename }} class="img-fluid">{%
-                      endif %}</a> </li>
-                  <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="6"
-                      data-target="#custCarousel">{% if path_histogram %}<img src={{ path_histogram }}
-                        class="img-fluid">{% endif %}</a> </li>
-                </ol>
+                  </div> 
+                  <!-- Left right --> 
+                  <a class="carousel-control-prev" href="#custCarousel" data-slide="prev">
+                    <span class="carousel-control-prev-icon"></span> </a> <a class="carousel-control-next"
+                    href="#custCarousel" data-slide="next"> <span class="carousel-control-next-icon"></span> </a>
+                  <!-- Thumbnails -->
+                  <ol class="carousel-indicators list-inline">
+                    <li class="list-inline-item active"> <a id="carousel-selector-0" class="selected" data-slide-to="0"
+                        data-target="#custCarousel">{% if filename %}<img src={{ filename }} class="img-fluid">{% endif %}
+                      </a> </li>
+                    <li class="list-inline-item"> <a id="carousel-selector-1" data-slide-to="1"
+                        data-target="#custCarousel">{% if path_thresholding %}<img src={{ path_thresholding }}
+                          class="img-fluid">{% endif %}</a> </li>
+                    <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="2"
+                        data-target="#custCarousel">{% if path_erosion %}<img src={{ path_erosion }} class="img-fluid">{%
+                        endif %}</a> </li>
+                    <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="3"
+                        data-target="#custCarousel">{% if path_dilatation %}<img src={{ path_dilatation }}
+                          class="img-fluid">{% endif %}</a> </li>
+                    <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="4"
+                        data-target="#custCarousel">{% if path_skeleton %}<img src={{ path_skeleton }}
+                          class="img-fluid">{% endif %}</a> </li>
+                    <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="5"
+                        data-target="#custCarousel">{% if outfilename %}<img src={{ outfilename }} class="img-fluid">{%
+                        endif %}</a> </li>
+                    <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="6"
+                        data-target="#custCarousel">{% if path_histogram %}<img src={{ path_histogram }}
+                          class="img-fluid">{% endif %}</a> </li>
+                  </ol>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      {% endif %}
     </div>
   </div>
 </div>
-
 {% endblock %}
