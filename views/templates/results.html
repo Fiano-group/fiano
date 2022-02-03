@@ -22,8 +22,7 @@
 				<div class="col-md-2">
 					<form action="/upload" method="POST" enctype="multipart/form-data">
 						<p>
-							<input type="file" id="file" class="upload-box" name="file" accept=".jpg, .jpeg, .png"
-								multiple>
+							<input type="file" id="file" class="upload-box" name="file" accept=".jpg, .jpeg, .png" multiple>
 							<label class="labelfile" for="file">Elegir imagen</label>
 						</p>
 				</div>
@@ -33,8 +32,7 @@
 				</div>
 				<div class="col-md-2">
 					<form action="/process" method="POST">
-						<button class="btn btn-primary buttonprocesar" type="submit" {% if not original %} disabled {%
-							endif %}>Procesar</button>
+						<button class="btn btn-primary buttonprocesar" type="submit" {% if not original %} disabled {% endif %}>Procesar</button>
 					</form>
 				</div>
 			</div>
