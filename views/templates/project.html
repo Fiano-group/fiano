@@ -27,16 +27,18 @@
             </thead>
             <tbody>
               <tr>
-                {% for row in data %}
+                {% for project in projects %}
                   <tr>
-                    <td>{{ row[0] }}</td>
-                    <td>{{ row[1] }}</td>
-                    <td>{{ row[2] }}</td>
+                    <td>{{ project[0] }}</td>
+                    <td>{{ project[1] }}</td>
+                    <td>{{ project[2] }}</td>
                     <td>
-                      <a class="btn btn-primary" href="{{ url_for('editproject', id_project=row[0], name_project=row[1]) }}">
+                      <a class="btn btn-primary" href="{{ url_for('edit_project', id_project=project[0]) }}">
                         Editar
                       </a>
-                      <button class="btn btn-danger">Eliminar</button>
+                      <a class="btn btn-danger" href="{{ url_for('delete_project', id_project=project[0]) }}">
+                        Eliminar
+                       </a> 
                     </td>
                   </tr>
                 {% endfor %}  

@@ -1,3 +1,4 @@
 .DS_Store
-static/process/*.*
-tools/*.sh
+*.pyc
+views/static/files/*
+__pycache__
