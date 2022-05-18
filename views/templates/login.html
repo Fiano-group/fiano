@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link href="{{ url_for('static', filename='css/sb-admin-2.css') }}" rel="stylesheet">
+        <link rel="stylesheet" href="../static/css/main.css">
+        <title>Control de Calidad de Fibras de Alpaca</title>
+    </head>
+    <body id="fondologin">
+        <div class="containermain">
+            <div class="row justify-content-center align-items-center pt-5" id ="total-container">
+                <div class="col-sm-12 col-md-5 col-lg-4 col-xl-4  pt-5 pl-5 pr-5 pb-5" id="auth-container">
+                    <div class="img-fluid rounded mx-auto d-block pb-2 rectangle">Control de Calidad de <br> Fibras de alpaca</div>
+                    <br> 
+                    <form name="login-form"  action="/login" onsubmit="return validateForm()" target="_self" method="POST">
+                        {% if error %}
+                            <p>{{ error }}</p>
+                        {% endif %}
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Username" name="username" />
+                            <br>
+                            <input class="form-control" type="password" placeholder="Password" name="password" />
+                        </div>
+                        <button class="btn btn-primary btn-block mt-5" type="submit">Inicia sesión</button>
+                    </form>
+                    <br>
+                    <!-- <form>
+                        <button class="btn btn-link btn-block mt-2 formatletter" type="submit">¿Olvidaste tu contraseña?</button> 
+                    </form> -->
+                    <hr>
+                    <br>
+                    <form name="login-register" action="/register">
+                        <button class="btn btn-outline-primary btn-block formatletter" type="submit">Regístrate</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

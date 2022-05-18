@@ -1,10 +1,13 @@
-# FIANO v0.1 18-04-2021
+# FIANO
+##### Author: Roxana Limache - roxanaevelynl6@gmail.com
+##### Author: Christian Portugal - christ.pz.cs@gmail.com
 Fiano es un softwate para la clasificación de fibras de alpaca para el control de calidad, esta plataforma se
-va  autilizar en la web con cloud computing.
+va a utilizar en la web con cloud computing.
 
-<!-- ## Instalación
-Usamos [python3](https://www.python.org/downloads/)  -->
+## Changelog
+* v0.1 - First version of the demo application added.
 
 ## Uso
-```python3 main.py
+```
+python3 main.py
 ```

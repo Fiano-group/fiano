@@ -1,4 +1,4 @@
 .DS_Store
-.vscode/
 *.pyc
-*.db
+views/static/files/*
+__pycache__

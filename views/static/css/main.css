@@ -1,0 +1,118 @@
+html, body{
+    background: #fafafa;
+    height: 100%;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+#fondologin{
+    margin-top: 0px;
+    background-image: url("../img/imagen.png");
+    background-size: 100%;
+}
+#auth-container{
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 2px;
+    box-shadow: 2px 2px 3px gray;
+}
+
+#coloregister{
+    background: #4F6AD7;
+    background-image: url("../img/image_register.png");
+    background-size: 100%;
+}
+#tableresults{
+    border:white 2px solid;
+    text-align: center;
+}
+td,th{
+    border:white 1px solid;
+}
+.containermain {
+    width: 80%;
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+    margin-right: auto;
+    margin-left: auto;
+  }
+.rectangle{
+    width: 270px; 
+    height: 70px; 
+    /* background: #428bca; */
+    background: linear-gradient(to right, #275379, #4FA8F5);
+    text-align: center;
+    color: white;
+    justify-content: center;
+    vertical-align: middle;
+    padding: 5% 0;
+}
+
+.header{
+    background: linear-gradient(to right, #275379, #4FA8F5);
+}
+
+
+/* carousel */
+.container{
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+/* .carousel-inner img {
+    width: 280px;
+    height: 250px;
+} */
+
+#custCarousel .carousel-indicators {
+    position: static;
+    margin-top: 20px;
+}
+
+#custCarousel .carousel-indicators>li {
+    width: 100px;
+}
+
+#custCarousel .carousel-indicators li img {
+    display: block;
+    opacity: 0.5;
+}
+
+#custCarousel .carousel-indicators li.active img {
+    opacity: 1;
+}
+
+#custCarousel .carousel-indicators li:hover img {
+    opacity: 0.75;
+}
+
+/* .carousel-item img {
+    width: 80%;
+} */
+
+input[type="file"]{
+    display:none;
+}
+.labelfile{
+    color:white;
+    background-color: #4F6AD8;
+    font-size: 16px;
+    justify-content: center;
+    align-items: center;
+    padding: 7px;
+    border-radius: 8px;
+}
+.labelfile:hover{
+    background: #325ed6;
+}
+.processimage{
+    padding-top: 0px;
+    padding: 0px;
+    margin:0px
+}
+.containerprocess{
+    margin-top: 20px;
+    margin-bottom: 100px;
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="{{ url_for('static', filename='css/sb-admin-2.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/main.css">
+    <title>Control de Calidad de Fibras de Alpaca</title>
+</head>
+<body class="h-100" id="coloregister">
+    <div class="containermain">
+        <div class="row justify-content-center align-items-center pt-5" id ="total-container">
+            <div class="col-sm-12 col-md-5 col-lg-4 col-xl-4 pt-5 pl-5 pr-5 pb-5" id="auth-container">
+                
+                <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Crea una cuenta</h1>
+                </div>
+
+                <form name="register-form"  action="/add_user" method = "POST">
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="Username" name="username" required="true" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="password" placeholder="Password" name="passwd" required="true" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="password" placeholder="Password confirmation" name="passwd_confirmation" required="true" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="First name" name="first_name" required="true" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="Last name" name="last_name" required="true" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="email" placeholder="Email address" name="email" required="true" />
+                    </div>
+                    <button class="btn btn-primary btn-block mt-5" type="submit">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

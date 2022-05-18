@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+	<!-- Page Heading -->
+	<div class="d-sm-flex align-items-center justify-content-center mb-4">
+		<h2 class="h3 mb-0 text-gray-800">Fiber analysis online</h2>
+	</div>
+
+	<!-- DataTales Example -->
+	<div class="card shadow mb-4">
+		<div class="card-header py-3">
+			<h6 class="m-0 font-weight-bold text-primary">Lista de proyectos</h6>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-bordered" id="dataTable">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Proyecto</th>
+							<th>Fecha</th>
+							<th>Acción</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							{% for project in projects %}
+						<tr>
+							<td>{{ project[0] }}</td>
+							<td>{{ project[1] }}</td>
+							<td>{{ project[2] }}</td>
+							<td>
+								<a class="btn btn-primary" href="{{ url_for('edit_project', id_project=project[0]) }}">
+									Editar
+								</a>
+								<a class="btn btn-danger" href="{{ url_for('delete_project', id_project=project[0]) }}">
+									Eliminar
+								</a>
+							</td>
+						</tr>
+						{% endfor %}
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<br><br>
+			<button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Agregar proyecto</button>
+		</div>
+	</div>
+
+</div>
+<!-- /.container-fluid -->
+
+
+<!-- New project Modal-->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Crear proyecto</h5>
+				<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form name="project-form" action="/add_project" method="POST">
+					<div class="form-group">
+						<label for="name" class="col-form-label">Nombre:</label>
+						<input class="form-control" type="text" name="nameproject" />
+					</div>
+					<div class="form-group">
+						<label for="date" class="col-form-label">Fecha:</label>
+						<input class="form-control" type="date" name="dateproject" />
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+						<button class="btn btn-primary" type="submit">Crear</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

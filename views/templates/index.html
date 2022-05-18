@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load Image</title>
+</head>
+<body>
+    <h2>Load Image alpaca</h2>
+    <h3>Bienvenido {{ username }}</h3>
+    <table>
+        <tbody>
+            <tr>
+                <td>             
+                    {% if filename %}
+                    <center><h5>Imagen original</h5></center>
+                    <img src= {{ filename }} height=250 width=280>
+                    <!-- <p>{{ filename }}</p> -->
+                    {% endif %}
+                </td>
+                <td>
+                    {% if path_thresholding%}
+                   <center><h5>Umbralización</h5></center> 
+                    <img src={{ path_thresholding }} height=250 width=280>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if path_erosion %}
+                    <center><h5>Erosión</h5></center>
+                    <img src={{ path_erosion }} height=250 width=280>
+                    {% endif %}
+                </td>
+            </tr>
+            <br>
+            <tr>
+                <td>
+                    {% if path_dilatation %}
+                    <center><h5>Dilatación</h5></center>
+                    <img src={{ path_dilatation }} height=250 width=280>
+                    {% endif %} 
+                </td>
+                <td>
+                    {% if path_skeleton %}
+                    <center><h5>Esqueletización</h5></center>
+                    <img src={{ path_skeleton }} height=250 width=280>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if outfilename %}
+                    <center><h5>Imagen final</h5></center>
+                    <img src= {{ outfilename }} height=250 width=280>
+                    <!-- <p>{{ filename }}</p> -->
+                    {% endif %}
+                </td>
+            </tr>
+            <br>
+                <tr>
+                    <th colspan="3">
+                        {% if path_histogram %}
+                        <center><h5>Histograma</h5></center>
+                        <img src={{ path_histogram }} height=563 width=702>
+                        {% endif %}
+                    </th>
+                </tr>
+        </tbody>
+    </table>
+    
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <p>
+            <input type="file" name="file">
+        </p>
+        <p>
+            <input type="submit">
+        </p>
+    </form>
+    <form action="/process" method="POST">
+        <button type="submit">Process</button>
+    </form>
+    <!-- <form action="/histogram" method="POST">
+        <button type="submit">Histogram</button>
+    </form> -->
+    
+</body>
+</html>
