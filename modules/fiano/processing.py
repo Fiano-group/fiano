@@ -72,12 +72,13 @@ def fiber_analysis(_local_path):
     #connected components
     retval, cc, statistics, centroids = cv2.connectedComponentsWithStats(skel_nointersect)
     #statistics
+    fiber_range = 60
     mean_per_element = np.zeros(retval)
     total_per_element = np.zeros(retval)
     seed_per_element = [0]*retval
-    counts_per_measure = np.zeros(60)
+    counts_per_measure = np.zeros(fiber_range)
     # Parameters histogram x,y
-    fiber_range = 60
+   
     x = np.arange(0,fiber_range)
     y = np.zeros(fiber_range)
     eq_a = 0.35539095323861947
@@ -111,16 +112,16 @@ def fiber_analysis(_local_path):
     final = cv2.cvtColor(clone_nointersect, cv2.COLOR_GRAY2BGR)
     #Color classification
     RY = (255,255,153) # ROYAL
-    BABY = (255,255,153) # BABY ALPACA
-    SF = (51,255,153) # SUPER FINA o FLEECE
-    H2 = (0,255,255) # ALPACA MEDIUM
-    AG = (204,204,255) # HUARIZO
+    BABY = (251,131,107) # BABY ALPACA
+    SF = (67,149,99) # SUPER FINA o FLEECE
+    H2 = (55,193,218) # ALPACA MEDIUM
+    AG = (120,85,199) # HUARIZO
     GR = (204,0,204) # GRUESA
     for c in np.arange(1,retval):
         COLOR = RY        
         # This is the equation that we fitted with our data
         estimated_measure  = mean_per_element[c]*3*eq_a + eq_b
-        if estimated_measure > 19 and estimated_measure <=23:
+        if estimated_measure <=23:
             COLOR = BABY
         elif estimated_measure > 23 and estimated_measure <= 26.5:
             COLOR = SF
