@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "fianodb",
+            "database": "${workspaceFolder:fiano}/modules/database/fiano.db"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" crossorigin="anonymous" />
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="../static/css/main.css">
+
+        <script>
+        function validateForm() {
+        var x = document.forms["login-form"]["username"].value;
+        if (x==null || x=="") {
+            alert("El nombre debe ser completado");
+            return false;
+        }
+        var y = document.forms["login-form"]["password"].value;
+        if (y==null || y=="") {
+            alert("La contraseña debe ser completada");
+            return false;
+        }
+        }
+
+        </script>
+        <title>Control de Calidad de Fibras de Alpaca</title>
+    </head>
+    <body class="h-100">
+        <div class="container h-100">
+            <div class="row h-100 justify-content-center align-items-center">
+                <div class="col-sm-12 col-md-5 col-lg-4 pt-5 pl-5 pr-5 pb-5" id="auth-container">
+                    <img src="{{url_for('static', filename='img/logo.jpg')}}" class="img-fluid rounded mx-auto d-block pb-2" style="max-width: 100%;">
+                    <br> 
+                    <form name="login-form"  action="/login" onsubmit="return validateForm()" target="_self" method="POST">
+                        {% if error %}
+                            <p>{{ error }}</p>
+                        {% endif %}
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Username" name="username" />
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="password" placeholder="Password" name="password" />
+                        </div>
+                        <button class="btn btn-primary btn-block mt-5" type="submit">Inicia sesión</button>
+                    </form>
+                    <form>
+                        <button class="btn btn-link btn-block mt-2" type="submit">¿Olvidaste tu contraseña?</button> 
+                    </form>
+                
+                    <a class="btn btn-link btn-block mt-1" href="{{url_for('register')}}">Registrarse</button>
+                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
